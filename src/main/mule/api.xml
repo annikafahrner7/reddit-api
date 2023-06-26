@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
+    <flow name="api-main">
+        <http:listener config-ref="api-httpListenerConfig" path="/api/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <ee:transform doc:name="Transform Headers" doc:id="7e77d521-aab3-4519-a6ea-e32e6829a619">
+            <ee:message />
+            <ee:variables>
+                <ee:set-variable variableName="vhttpHeaders"><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "sourceSystem" : attributes.Headers.'source-system' default 'Not Available',
+    "targetSystem" : attributes.Headers.'target-system' default 'Not Available',
+    "correlationId" : attributes.Headers.'correlation-id' default uuid()
+ 
+}]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <apikit:router config-ref="api-config" />
+    </flow>
+    <flow name="get:\ping:api-config">
+        <flow-ref doc:name="Get Ping" doc:id="d6929b3a-d56c-4135-9b35-168fd88a487b" name="getPing" />
+    </flow>
+	<flow name="get:\healthcheck:api-config">
+        <flow-ref doc:name="Get Health Check" doc:id="34f2b891-8f45-42e6-9b2a-101a0f72448e" name="getHealthCheck" />
+    </flow>
+    <flow name="get:\subreddits:api-config">
+		<flow-ref doc:name="Get Subreddits" doc:id="a4a49d96-e0e0-482a-b9e6-b7f66574d164" name="getSubreddits"/>
+    </flow>
+    <flow name="get:\subreddits\(id):api-config">
+		<flow-ref doc:name="Get Subreddit by Id" doc:id="4ac13ca7-465d-471e-931a-49d3bedd6572" name="getSubredditById"/>
+    </flow>
+	<flow name="get:\subreddits\(id)\posts:api-config">
+		<flow-ref doc:name="Get Posts" doc:id="9b3bb50e-3bea-4741-8563-94f3a104ea90" name="getPosts"/>
+    </flow>
+    <flow name="get:\subreddits\(id)\posts\(id):api-config">
+		<flow-ref doc:name="Get Post by Id" doc:id="f8419a92-088e-4c9b-a759-040272472054" name="getPostById"/>
+    </flow>
+	<flow name="get:\subreddits\(id)\posts\(id)\comments:api-config">
+		<flow-ref doc:name="Get Comments" doc:id="f22eec43-4754-45fa-a076-51de1bb0b302" name="getComments"/>
+    </flow>
+</mule>
