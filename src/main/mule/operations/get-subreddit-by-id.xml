@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+<mule xmlns:reddit="http://www.mulesoft.org/schema/mule/reddit" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/reddit http://www.mulesoft.org/schema/mule/reddit/current/mule-reddit.xsd">
 	<sub-flow name="getSubredditById" doc:id="12523ba9-2fcc-4ec1-8bbc-f2eec6fb8fb2" >
-		<ee:transform doc:name="Transform Message" doc:id="aedc9895-ea56-41d1-819b-dd5b3c53e77f" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
+		<reddit:get-subreddit doc:name="Get subreddit" doc:id="c4a41ab5-0c29-4cad-af1b-a43266db258c" subreddit="nfl"/>
+		<ee:transform doc:name="Transform Message" doc:id="aedc9895-ea56-41d1-819b-dd5b3c53e77f">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
 ---
-{
-	message: "testing"
-}]]></ee:set-payload>
+read(payload, "application/json")]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="a564a80a-9c7a-4c6c-91d7-b01a970cef75" />
 	</sub-flow>
 </mule>

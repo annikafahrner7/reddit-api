@@ -101,13 +101,24 @@
 		<mule.maven.plugin.version>3.8.0</mule.maven.plugin.version>
 	</properties>
 	<dependencies>
-
 		<dependency>
 			<groupId>37513a5c-61c8-4566-8c30-c9d2a08150d8</groupId>
 			<artifactId>reddit-api-team-demo</artifactId>
 			<version>1.0.0</version>
 			<classifier>raml</classifier>
 			<type>zip</type>
+		</dependency>
+		<dependency>
+			<groupId>connectors</groupId>
+			<artifactId>reddit-connector</artifactId>
+			<version>1.0.0</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>connectors</groupId>
+			<artifactId>random-connector</artifactId>
+			<version>1.0.0</version>
+			<classifier>mule-plugin</classifier>
 		</dependency>
 	</dependencies>
 </project>

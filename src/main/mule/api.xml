@@ -36,6 +36,16 @@ output application/json
 		<flow-ref doc:name="Get Subreddits" doc:id="a4a49d96-e0e0-482a-b9e6-b7f66574d164" name="getSubreddits"/>
     </flow>
     <flow name="get:\subreddits\(id):api-config">
+		<ee:transform doc:name="Set subredditId" doc:id="1e686d1d-a914-4a09-b553-ae8b569eb237" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="subredditId" ><![CDATA[%dw 2.0
+output application/json
+---
+attributes.uriParams.'id']]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
 		<flow-ref doc:name="Get Subreddit by Id" doc:id="4ac13ca7-465d-471e-931a-49d3bedd6572" name="getSubredditById"/>
     </flow>
 	<flow name="get:\subreddits\(id)\posts:api-config">
