@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+<mule xmlns:reddit="http://www.mulesoft.org/schema/mule/reddit" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/reddit http://www.mulesoft.org/schema/mule/reddit/current/mule-reddit.xsd">
 	<flow name="getHealthCheck" doc:id="d917aa64-9a26-4b8e-b415-b7f3c09ecb8e" >
-		<ee:transform doc:name="Build Health Check Response" doc:id="d86ab48a-49d4-4c74-8a07-8be2b7bcb56a" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
+		<reddit:get-subreddits doc:name="Get Subreddits" doc:id="7d270345-e4bc-4d4c-a4f7-b0a57bd34630" config-ref="Reddit_Config"/>
+		<ee:transform doc:name="Format Response" doc:id="3e312d53-24a9-42e8-9e55-7a146c05c3b3">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{
-  status: "alive",
-  application: p("app.name"),
-  env: p("mule.env"),
-  version: p("app.version"),
-  systems: [
-    {
-      name: "Not Implemented !!",
-      status: "success",
-      message: "Please implement each external system (such as SAPI, queue, DB etc) connection test"
-    } 
-  ]
+read(payload, "application/json")]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="Format Response1" doc:id="396028bd-ff30-4342-b2f3-ae0178f0401b">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload.data.children.*data map (subreddit) -> {
+    "subreddit_name": subreddit.display_name,
+    "title": subreddit.title,
+    "number_comments": subreddit.num_comments,
+    "creation_time": subreddit.created_utc,
+    "content": subreddit.selftext
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>

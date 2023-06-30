@@ -10,7 +10,7 @@
 	<munit:config name="get-ping-test-suite.xml" />
 	<munit:test name="get-ping-test-suite-mf-get-pingTest" doc:id="51755cdc-0b96-4efb-811f-e794baf04bdd" description="Test">
 		<munit:execution >
-			<flow-ref doc:name="Flow-ref to mf-get-ping" doc:id="19bfa7fc-0caa-46b4-9726-33741d6a1639" name="mf-get-ping"/>
+			<flow-ref doc:name="Flow-ref to getPing" doc:id="19bfa7fc-0caa-46b4-9726-33741d6a1639" name="getPing"/>
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:verify-call doc:name="Verify call" doc:id="c0041c65-7378-4a9b-bfe6-eaff6953ae1f" processor="flow-ref">

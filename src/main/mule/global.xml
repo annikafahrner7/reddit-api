@@ -1,28 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<mule xmlns:reddit="http://www.mulesoft.org/schema/mule/reddit"
-	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger"
-	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
-	xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
-http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd
-http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
-http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
-http://www.mulesoft.org/schema/mule/reddit http://www.mulesoft.org/schema/mule/reddit/current/mule-reddit.xsd">
-	 <http:listener-config name="api-httpListenerConfig">
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:reddit="http://www.mulesoft.org/schema/mule/reddit" xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=" http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd  http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd http://www.mulesoft.org/schema/mule/reddit http://www.mulesoft.org/schema/mule/reddit/current/mule-reddit.xsd">
+    <http:listener-config name="api-httpListenerConfig">
         <http:listener-connection host="${http.host}" port="${http.port}" readTimeout="${read-timeout}" />
     </http:listener-config>
-    <apikit:config name="api-config" api="resource::37513a5c-61c8-4566-8c30-c9d2a08150d8:reddit-api-team-demo:1.0.0:raml:zip:api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
-	
-	<configuration-properties doc:name="Common-Configuration properties" doc:id="ed1913bb-a80b-4748-9f5a-1b360c75bdb3" file="properties/common-config.yaml" />
-	<configuration-properties doc:name="Configuration properties" doc:id="44018fe0-9573-4de4-80c8-e6235bda129c" file="properties/${mule.env}-config.yaml" />
-	<api-gateway:autodiscovery apiId="${autoDiscovery.apiId}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="c59cde05-b7db-4e9a-9b00-fafdf5f09ec4" flowRef="api-main" />
-	<configuration doc:name="global-error-handler -Configuration" doc:id="f6c48e3b-af06-4254-aea0-41ebcdf38160" defaultErrorHandler-ref="global-error-handler" />
-	<reddit:config name="Reddit_Config" doc:name="Reddit Config" doc:id="56d6b945-0e26-4998-af19-245aa6cc51f2" >
-		<reddit:connection bearerToken="eyJhbGciOiJSUzI1NiIsImtpZCI6IlNIQTI1NjpzS3dsMnlsV0VtMjVmcXhwTU40cWY4MXE2OWFFdWFyMnpLMUdhVGxjdWNZIiwidHlwIjoiSldUIn0.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNjg3OTkwMDk5LjcwNTUxOCwiaWF0IjoxNjg3OTAzNjk5LjcwNTUxOCwianRpIjoiV19YbjF0Z1A1YXVaV3p0enI1dlMteEY2LVlLa1JBIiwiY2lkIjoiQktmblRKZWdmWFF3Q184UFAtVHdxdyIsImxpZCI6InQyX3BubG1ncjlsIiwiYWlkIjoidDJfcG5sbWdyOWwiLCJsY2EiOjE2NTcxMTg1NzQ1NDIsInNjcCI6ImVKeUtWdEpTaWdVRUFBRF9fd056QVNjIiwiZmxvIjo5fQ.ke_70fHLNdy-r5NuvZsRf2Idwu6pD251YyYA7W3thhZ-EHEENSCaz6YvWyHwL-L0jldeAtAsd4cR82UEMy4OmpTIugBN7_TAqgnlDP2rlw1vju9sobQFlf4-VgV8ETpPYMyUnpVlaISp_XoTzOI-WRzGkHa9FB8MsqQBS26078zHG-SLb17zx4WnN3pWctCpbvjPVxfbo4gGmTRi1u15rqWb18LmIrGhzZixSIa4FwVG5QUfOAICgRBmVjwIRo5E2bXLdacU82WCE5ESgORLTlvW7gWyscgj_4OLO7LQMnZiZ7HBPbnUfCQ_RMk-jB5cg8O0_nVsWR4G-8aodi4OsQ" />
-	</reddit:config>
-	
-
+    <apikit:config name="api-config" api="resource::37513a5c-61c8-4566-8c30-c9d2a08150d8:reddit-api-team-demo:1.0.1:raml:zip:api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <configuration-properties doc:name="Common-Configuration properties" doc:id="ed1913bb-a80b-4748-9f5a-1b360c75bdb3" file="properties/common-config.yaml" />
+    <configuration-properties doc:name="Configuration properties" doc:id="44018fe0-9573-4de4-80c8-e6235bda129c" file="properties/${mule.env}-config.yaml" />
+    <api-gateway:autodiscovery apiId="${autoDiscovery.apiId}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="c59cde05-b7db-4e9a-9b00-fafdf5f09ec4" flowRef="api-main" />
+    <configuration doc:name="global-error-handler -Configuration" doc:id="f6c48e3b-af06-4254-aea0-41ebcdf38160" defaultErrorHandler-ref="global-error-handler" />
+    <reddit:config name="Reddit_Config" doc:name="Reddit_Config" doc:id="6ef8db99-0ecd-4114-aab8-d2c65f6616e8">
+        <reddit:connection bearerToken="eyJhbGciOiJSUzI1NiIsImtpZCI6IlNIQTI1NjpzS3dsMnlsV0VtMjVmcXhwTU40cWY4MXE2OWFFdWFyMnpLMUdhVGxjdWNZIiwidHlwIjoiSldUIn0.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNjg4MTc4NjQ1Ljk2OTIyLCJpYXQiOjE2ODgwOTIyNDUuOTY5MjE5LCJqdGkiOiJuV0kxMDVhZUNGQS0zV0diVHFidnp1SHhMQW1pWEEiLCJjaWQiOiJCS2ZuVEplZ2ZYUXdDXzhQUC1Ud3F3IiwibGlkIjoidDJfcG5sbWdyOWwiLCJhaWQiOiJ0Ml9wbmxtZ3I5bCIsImxjYSI6MTY1NzExODU3NDU0Miwic2NwIjoiZUp5S1Z0SlNpZ1VFQUFEX193TnpBU2MiLCJmbG8iOjl9.NL190Z4WAZ2i3A529DBGpmeLsh1q3r_AILjT1Gja0pFHjrHoUc_Vm5Z8PdRefvIk5D2cOcaXC94R7uv-vCFv4wYno6ANHxdiAZL1MEl69dH3oJbFQK023uo0zWFh0E_MysefpQbL_EC2T1WnnvVzHseIOS1Ae9m8EpbBKkCybky5CoeH6jMKwBI1wqUk2aVTEBRaTCuvMmsVcv0AqMjp-Exy_n1QuzGQ7ZItKpDCJcCMiATC-sVXi3DW0HhPDrbDgPOdLWgudubgb8eXiuf_SemJlBaYxaaxZ2LyBpYHzMk1j4ib_xKQt0nKnLiHnZQuZB_hdCw1BIvf6dkjcbZ8_w" />
+    </reddit:config>
 </mule>

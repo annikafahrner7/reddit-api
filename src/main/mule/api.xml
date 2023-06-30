@@ -29,32 +29,29 @@ output application/json
     <flow name="get:\ping:api-config">
         <flow-ref doc:name="Get Ping" doc:id="d6929b3a-d56c-4135-9b35-168fd88a487b" name="getPing" />
     </flow>
-	<flow name="get:\healthcheck:api-config">
+    <flow name="get:\healthcheck:api-config">
         <flow-ref doc:name="Get Health Check" doc:id="34f2b891-8f45-42e6-9b2a-101a0f72448e" name="getHealthCheck" />
     </flow>
     <flow name="get:\subreddits:api-config">
-		<flow-ref doc:name="Get Subreddits" doc:id="a4a49d96-e0e0-482a-b9e6-b7f66574d164" name="getSubreddits"/>
-    </flow>
-    <flow name="get:\subreddits\(id):api-config">
-		<ee:transform doc:name="Set subredditId" doc:id="1e686d1d-a914-4a09-b553-ae8b569eb237" >
+        <ee:transform doc:name="Set Keyword" doc:id="3f4e8a79-a52d-487a-a9ac-d73eaffe5706" >
 			<ee:message >
 			</ee:message>
 			<ee:variables >
-				<ee:set-variable variableName="subredditId" ><![CDATA[%dw 2.0
+				<ee:set-variable variableName="keyword" ><![CDATA[%dw 2.0
 output application/json
 ---
-attributes.uriParams.'id']]></ee:set-variable>
+attributes.queryParams.keyword]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
-		<flow-ref doc:name="Get Subreddit by Id" doc:id="4ac13ca7-465d-471e-931a-49d3bedd6572" name="getSubredditById"/>
+		<flow-ref doc:name="Get Subreddits" doc:id="a4a49d96-e0e0-482a-b9e6-b7f66574d164" name="getSubreddits" />
     </flow>
-	<flow name="get:\subreddits\(id)\posts:api-config">
-		<flow-ref doc:name="Get Posts" doc:id="9b3bb50e-3bea-4741-8563-94f3a104ea90" name="getPosts"/>
+    <flow name="get:\subreddits\(subredditId)\posts\(postId)\comments:api-config">
+		<set-variable value="#[attributes.uriParams.subredditId]" doc:name="Set subredditId" doc:id="a579436a-b305-4caa-bea6-d05fe7227a06" variableName="subredditId" />
+		<set-variable value="#[attributes.uriParams.postId]" doc:name="Set postId" doc:id="2a155a57-505f-4e13-a292-bfe64ba2cd9c" variableName="postId" />
+		<flow-ref doc:name="Get Comments" doc:id="f22eec43-4754-45fa-a076-51de1bb0b302" name="getComments" />
     </flow>
-    <flow name="get:\subreddits\(id)\posts\(id):api-config">
-		<flow-ref doc:name="Get Post by Id" doc:id="f8419a92-088e-4c9b-a759-040272472054" name="getPostById"/>
-    </flow>
-	<flow name="get:\subreddits\(id)\posts\(id)\comments:api-config">
-		<flow-ref doc:name="Get Comments" doc:id="f22eec43-4754-45fa-a076-51de1bb0b302" name="getComments"/>
+    <flow name="get:\subreddits\(subredditId)\posts:api-config">
+		<set-variable value="#[attributes.uriParams.subredditId]" doc:name="Set subredditId" doc:id="9ecbc3a0-b980-4033-a3c3-3f2727cc9f88" variableName="subredditId" />
+		<flow-ref doc:name="Get Posts" doc:id="9b3bb50e-3bea-4741-8563-94f3a104ea90" name="getPosts" />
     </flow>
 </mule>

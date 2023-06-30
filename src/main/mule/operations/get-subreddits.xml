@@ -6,15 +6,30 @@
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/reddit http://www.mulesoft.org/schema/mule/reddit/current/mule-reddit.xsd">
 	<sub-flow name="getSubreddits" doc:id="3ac1f0bd-6d4d-4afd-9cb7-f3684ee4e1d3" >
-		<ee:transform doc:name="Transform Message" doc:id="7b000cdc-b3e1-48d4-a678-321404478739" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
+		<logger level="INFO" doc:name="Logger" doc:id="d93c1f24-7999-4f3f-9edd-2339d7902616" />
+		<reddit:get-subreddits doc:name="Get Subreddits" doc:id="6f29a5fb-0e64-4ae1-94f9-a12e7feb381d" config-ref="Reddit_Config" keyword="#[vars.'keyword']"/>
+		<ee:transform doc:name="Format Response" doc:id="edfc4f40-d71d-4747-8a18-213f5ac59b0f">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
 ---
-{
-	message: "testing"
+read(payload, "application/json")]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="Format Response1" doc:id="07234565-4490-4274-bb9a-a3d9acfac7e3">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload.data.children.*data map (subreddit) -> {
+    "subreddit_name": subreddit.display_name,
+    "title": subreddit.title,
+    "number_comments": subreddit.num_comments,
+    "creation_time": subreddit.created_utc,
+    "content": subreddit.selftext
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="394382e4-7a3d-482e-8262-41342e58af1e" />
 	</sub-flow>
 </mule>

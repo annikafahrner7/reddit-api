@@ -120,4 +120,5 @@ type: string]]></types:shape>
     </types:processor-declaration>
   </types:enrichment>
   <types:enrichment select="#1e686d1d-a914-4a09-b553-ae8b569eb237"/>
+  <types:enrichment select="#3f4e8a79-a52d-487a-a9ac-d73eaffe5706"/>
 </types:mule>
