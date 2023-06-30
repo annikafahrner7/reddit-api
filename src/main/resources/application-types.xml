@@ -121,4 +121,5 @@ type: string]]></types:shape>
   </types:enrichment>
   <types:enrichment select="#1e686d1d-a914-4a09-b553-ae8b569eb237"/>
   <types:enrichment select="#3f4e8a79-a52d-487a-a9ac-d73eaffe5706"/>
+  <types:enrichment select="#b780bf60-fb64-4931-979b-78b46b4329ce"/>
 </types:mule>

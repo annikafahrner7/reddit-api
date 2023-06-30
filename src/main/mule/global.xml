@@ -8,7 +8,7 @@
     <configuration-properties doc:name="Configuration properties" doc:id="44018fe0-9573-4de4-80c8-e6235bda129c" file="properties/${mule.env}-config.yaml" />
     <api-gateway:autodiscovery apiId="${autoDiscovery.apiId}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="c59cde05-b7db-4e9a-9b00-fafdf5f09ec4" flowRef="api-main" />
     <configuration doc:name="global-error-handler -Configuration" doc:id="f6c48e3b-af06-4254-aea0-41ebcdf38160" defaultErrorHandler-ref="global-error-handler" />
-    <reddit:config name="Reddit_Config" doc:name="Reddit_Config" doc:id="6ef8db99-0ecd-4114-aab8-d2c65f6616e8">
-        <reddit:connection bearerToken="eyJhbGciOiJSUzI1NiIsImtpZCI6IlNIQTI1NjpzS3dsMnlsV0VtMjVmcXhwTU40cWY4MXE2OWFFdWFyMnpLMUdhVGxjdWNZIiwidHlwIjoiSldUIn0.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNjg4MTc4NjQ1Ljk2OTIyLCJpYXQiOjE2ODgwOTIyNDUuOTY5MjE5LCJqdGkiOiJuV0kxMDVhZUNGQS0zV0diVHFidnp1SHhMQW1pWEEiLCJjaWQiOiJCS2ZuVEplZ2ZYUXdDXzhQUC1Ud3F3IiwibGlkIjoidDJfcG5sbWdyOWwiLCJhaWQiOiJ0Ml9wbmxtZ3I5bCIsImxjYSI6MTY1NzExODU3NDU0Miwic2NwIjoiZUp5S1Z0SlNpZ1VFQUFEX193TnpBU2MiLCJmbG8iOjl9.NL190Z4WAZ2i3A529DBGpmeLsh1q3r_AILjT1Gja0pFHjrHoUc_Vm5Z8PdRefvIk5D2cOcaXC94R7uv-vCFv4wYno6ANHxdiAZL1MEl69dH3oJbFQK023uo0zWFh0E_MysefpQbL_EC2T1WnnvVzHseIOS1Ae9m8EpbBKkCybky5CoeH6jMKwBI1wqUk2aVTEBRaTCuvMmsVcv0AqMjp-Exy_n1QuzGQ7ZItKpDCJcCMiATC-sVXi3DW0HhPDrbDgPOdLWgudubgb8eXiuf_SemJlBaYxaaxZ2LyBpYHzMk1j4ib_xKQt0nKnLiHnZQuZB_hdCw1BIvf6dkjcbZ8_w" />
-    </reddit:config>
+	<reddit:config name="Reddit_Config" doc:name="Reddit Config" doc:id="e8ec914e-edcf-4deb-b4c9-31eedff06b71" >
+		<reddit:connection bearerToken="${bearer.token}" />
+	</reddit:config>
 </mule>

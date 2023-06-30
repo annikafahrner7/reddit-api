@@ -6,9 +6,9 @@
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/reddit http://www.mulesoft.org/schema/mule/reddit/current/mule-reddit.xsd">
 	<sub-flow name="getPosts" doc:id="3fb156cf-06ca-4625-b77d-a4c01e730b7b" >
-		<logger level="INFO" doc:name="Logger" doc:id="8c7c51f1-f263-49d1-a03c-7927a5b82fac" />
-		<reddit:get-posts doc:name="Get Posts" doc:id="f18c3a25-803b-4efa-9ab0-14a319420b14" config-ref="Reddit_Config" subredditName="#[vars.subredditId]" />
-		<ee:transform doc:name="Format Response" doc:id="009c290c-f249-46e0-8372-3ef297a8218f">
+		<logger level="INFO" doc:name="Logger" doc:id="8c7c51f1-f263-49d1-a03c-7927a5b82fac" message="#[payload]"/>
+		<reddit:get-posts doc:name="Get Posts" doc:id="f18c3a25-803b-4efa-9ab0-14a319420b14" config-ref="Reddit_Config" subredditName="#[vars.subredditName]" />
+		<ee:transform doc:name="Convert to JSON" doc:id="009c290c-f249-46e0-8372-3ef297a8218f">
 			<ee:message>
 				<ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -16,7 +16,7 @@ output application/json
 read(payload, "application/json")]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<ee:transform doc:name="Format Response1" doc:id="c699b99d-1bf8-4462-a650-47b4a14d63d9">
+		<ee:transform doc:name="Format Response" doc:id="c699b99d-1bf8-4462-a650-47b4a14d63d9">
 			<ee:message>
 				<ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -31,6 +31,6 @@ payload.data.children.*data map {
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="d3c330f3-b577-49af-b272-6da63fad9144" />
+		<logger level="INFO" doc:name="Logger" doc:id="d3c330f3-b577-49af-b272-6da63fad9144" message="#[payload]"/>
 	</sub-flow>
 </mule>

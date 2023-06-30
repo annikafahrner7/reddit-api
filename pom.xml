@@ -102,9 +102,9 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>37513a5c-61c8-4566-8c30-c9d2a08150d8</groupId>
+			<groupId>com.bigcompass</groupId>
 			<artifactId>reddit-connector</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.3</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
